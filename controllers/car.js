@@ -20,3 +20,34 @@ exports.addCar = (req, res) => {
         }
     );
 }
+
+
+exports.getCar = (req, res) => {
+    Car.findOne({
+        _id: req.params.id
+    }).then(
+        (thing) => {
+            res.status(200).json(thing);
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            });
+        }
+    );
+}
+
+exports.getAllCars = (req, res) => {
+    Car.find().then(
+        (cars) => {
+            res.status(200).json(cars);
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            })
+        }
+    )
+}
