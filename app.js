@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 
 const userRoutes = require('./routes/user');
+const carRoutes = require('./routes/car');
 
 
 const bodyParser = require("express");
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // pour un body en x-www-for
 
 
 app.use('/api/auth', userRoutes);
+app.use('/api/car', carRoutes);
 
 
 module.exports = app;
