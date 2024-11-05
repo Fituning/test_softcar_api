@@ -12,6 +12,9 @@ module.exports = (req, res, next) => {
         if (!car) {
             return res.status(404).json({ error: 'Car not found' });
         }
+        // else{
+        //     res.status(200).json({ error: 'Car found' });
+        // }
 
         // Continue vers la prochaine étape si la voiture existe
         req.car = car; // Stocke la voiture dans `req` pour l'utiliser dans le contrôleur
