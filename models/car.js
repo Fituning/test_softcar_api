@@ -7,7 +7,7 @@ const { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus } = req
 const batterySchema = mongoose.Schema({
     charge_level: { type: Number, required: true, default: 100 }, // en %
     battery_health: { type: Number, required: true, default: 100 }, // en %
-    charging_time: { type: Number, required: true, default: 0 }, // en minutes
+    charging_time: { type: Number, required: false, default: 0 }, // en minutes
     charging_power: { type: Number, required: true, default: 0 } // en kW
 });
 

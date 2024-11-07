@@ -89,3 +89,25 @@ exports.updateLockStatus = (req, res) => {
         }
     );
 };
+
+exports.updateCarAirConditioning = (req, res) => {
+    const updates = req.body; // Obtenez toutes les valeurs de mise à jour depuis le corps de la requête
+
+    // Mettez à jour uniquement les champs fournis dans le corps de la requête
+    for (let key in updates) {
+        if (updates.hasOwnProperty(key)) {
+            req.car.air_conditioning[key] = updates[key];
+        }
+    }
+
+    req.car.save().then(
+        (car) => {
+            res.status(200).json(car);
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({ error });
+        }
+    );
+};
+
