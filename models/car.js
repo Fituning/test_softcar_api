@@ -13,6 +13,7 @@ const batterySchema = mongoose.Schema({
 
 const airConditioningSchema = mongoose.Schema({
     temperature: { type: Number, default: 20 },
+    ventilation_level: { type: Number, enum: VentilationLevel, default: VentilationLevel.OFF },
     mode: { type: String, enum: AirConditioningMode, default: AirConditioningMode.OFF },
     ac_is_active: { type: Boolean, default: false},
     front_defogging: { type: Boolean, default: false },
@@ -53,12 +54,12 @@ const carSchema = mongoose.Schema({
             charging_power: 0
         }
     },
-    ventilation_level: { type: Number, enum: VentilationLevel, default: VentilationLevel.OFF },
     air_conditioning: {
         type: airConditioningSchema,
         required: true,
         default: {
             temperature: 20,
+            ventilation_level: VentilationLevel.OFF,
             mode: AirConditioningMode.OFF,
             ac_is_active: false,
             front_defogging: false,

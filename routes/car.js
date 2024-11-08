@@ -7,7 +7,8 @@ const carCtrl = require('../controllers/car');
 
 router.post('/', carCtrl.addCar);
 router.get('/:id', carCtrl.getCar);
-router.get('/', carCtrl.getAllCars);
+router.get('/', carCtrl.getCar);
+router.get('/cars', carCtrl.getAllCars);
 
 // Mise à jour des statuts individuels
 router.patch('/:id/lock', checkCarExists, carCtrl.updateLockStatus);
