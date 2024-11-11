@@ -1,6 +1,7 @@
 const Car = require('../models/car');
 
 const { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus } = require('../enums/car_enum');
+const mqttClient = require('../mqtt'); // Importe le client MQTT
 
 exports.addCar = (req, res) => {
     const car = new Car({
@@ -105,6 +106,45 @@ exports.updateCarAirConditioning = (req, res) => {
 
     req.car.save().then(
         (car) => {
+            res.status(200).json(car);
+            const message = JSON.stringify({ air_conditioning: car.air_conditioning });
+            mqttClient.publish('car/airConditioning', message, { qos: 1 }, (error) => {
+                if (error) {
+                    console.error('Erreur lors de l\'envoi du message MQTT :', error);
+                } else {
+                    console.log('Message MQTT envoyé :', message);
+                }
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({ error });
+        }
+    );
+};
+
+exports.updateBattery = (req, res) => {
+    const updates = req.body; // Obtenez toutes les valeurs de mise à jour depuis le corps de la requête
+
+    // Mettez à jour uniquement les champs fournis dans le corps de la requête
+    for (let key in updates) {
+        if (updates.hasOwnProperty(key)) {
+            req.car.battery[key] = updates[key];
+        }
+    }
+
+    req.car.save().then(
+        (car) => {
+            // Publier un message MQTT après la mise à jour de la batterie
+            const message = JSON.stringify({ battery: car.battery });
+            mqttClient.publish('car/batteryStatus', message, { qos: 1 }, (error) => {
+                if (error) {
+                    console.error('Erreur lors de l\'envoi du message MQTT :', error);
+                } else {
+                    console.log('Message MQTT envoyé :', message);
+                }
+            });
+
             res.status(200).json(car);
         }
     ).catch(
