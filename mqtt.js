@@ -1,10 +1,13 @@
+require('dotenv').config();
 const mqtt = require('mqtt');
 
 // Utilise l'URL correcte pour le broker MQTT avec TLS/SSL
+console.log(process.env.MQTT_DB_USER);
+
 const client = mqtt.connect('mqtts://lb28a76a.ala.eu-central-1.emqxsl.com:8883', {
     // Ajoute les options si nécessaire (ex. : identifiants)
-    username: 'test_api', // Remplace par ton nom d'utilisateur si nécessaire
-    password: '2AEB64THEFdik8N'  // Remplace par ton mot de passe si nécessaire
+    username: process.env.MQTT_DB_USER, // Remplace par ton nom d'utilisateur si nécessaire
+    password: process.env.MQTT_DB_PASSWORD  // Remplace par ton mot de passe si nécessaire
 });
 
 client.on('connect', () => {

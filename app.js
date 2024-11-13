@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -10,7 +11,11 @@ const carRoutes = require('./routes/car');
 const bodyParser = require("express");
 const app = express();
 
-mongoose.connect('mongodb+srv://cazancoth:KQ3xZc5Lk2Avbfql@cluster0.cadku.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+// console.log(process.env.MONGO_DB_USER);
+// console.log('mongodb+srv://'+process.env.MONGO_DB_USER+':'+process.env.MONGO_DB_PASSWORD+'@'+process.env.MONGO_DB_URI+'/?retryWrites=true&w=majority&appName=Cluster0');
+// console.log('mongodb+srv://cazancoth:KQ3xZc5Lk2Avbfql@cluster0.cadku.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+
+mongoose.connect('mongodb+srv://'+process.env.MONGO_DB_USER+':'+process.env.MONGO_DB_PASSWORD+'@'+process.env.MONGO_DB_URI+'/?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
