@@ -2,25 +2,32 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus } = require('../enums/car_enum');
+const {Schema} = require("mongoose");
 
 
-const batterySchema = mongoose.Schema({
-    charge_level: { type: Number, required: true, default: 100 }, // en %
-    battery_health: { type: Number, required: true, default: 100 }, // en %
-    charging_time: { type: Number, required: false, default: 0 }, // en minutes
-    charging_power: { type: Number, required: true, default: 0 } // en kW
-});
+const batterySchema = new Schema(
+    {
+        charge_level: { type: Number, required: true, default: 100 }, // en %
+        battery_health: { type: Number, required: true, default: 100 }, // en %
+        charging_time: { type: Number, required: false, default: 0 }, // en minutes
+        charging_power: { type: Number, required: true, default: 0 } // en kW
+    },
+    {_id : false}
+);
 
-const airConditioningSchema = mongoose.Schema({
-    temperature: { type: Number, default: 20 },
-    ventilation_level: { type: Number, enum: VentilationLevel, default: VentilationLevel.OFF },
-    mode: { type: String, enum: AirConditioningMode, default: AirConditioningMode.OFF },
-    ac_is_active: { type: Boolean, default: false},
-    front_defogging: { type: Boolean, default: false },
-    back_defogging: { type: Boolean, default: false }
-});
+const airConditioningSchema = new Schema(
+    {
+        temperature: { type: Number, default: 20 },
+        ventilation_level: { type: Number, enum: VentilationLevel, default: VentilationLevel.OFF },
+        mode: { type: String, enum: AirConditioningMode, default: AirConditioningMode.OFF },
+        ac_is_active: { type: Boolean, default: false},
+        front_defogging: { type: Boolean, default: false },
+        back_defogging: { type: Boolean, default: false }
+    },
+    {_id : false}
+);
 
-const carSchema = mongoose.Schema({
+const carSchema = new Schema({
     vin: { type: String, required: true, unique: true }, // Numéro VIN unique
     color: { type: String, required: true },
     kilometres: { type: Number, required: true, default:0 },
