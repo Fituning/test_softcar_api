@@ -6,9 +6,11 @@ const checkCarExists = require('../middleware/check_car_exists');
 const carCtrl = require('../controllers/car');
 
 router.post('/', carCtrl.addCar);
+router.get('/cars', carCtrl.getAllCars);
+router.delete('/cars', carCtrl.deleteAllCars);
 router.get('/:id', carCtrl.getCar);
 router.get('/', carCtrl.getCar);
-router.get('/cars', carCtrl.getAllCars);
+
 
 // Mise à jour des statuts individuels
 router.patch('/:id/lock', checkCarExists, carCtrl.updateLockStatus);
