@@ -2,7 +2,6 @@ require('dotenv').config();
 const mqtt = require('mqtt');
 
 // Utilise l'URL correcte pour le broker MQTT avec TLS/SSL
-console.log(process.env.MQTT_DB_USER);
 
 const client = mqtt.connect('mqtts://lb28a76a.ala.eu-central-1.emqxsl.com:8883', {
     // Ajoute les options si nécessaire (ex. : identifiants)
