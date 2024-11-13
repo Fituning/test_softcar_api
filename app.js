@@ -10,9 +10,7 @@ const carRoutes = require('./routes/car');
 const bodyParser = require("express");
 const app = express();
 
-mongoose.connect('mongodb+srv://cazancoth:KQ3xZc5Lk2Avbfql@cluster0.cadku.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-    { useNewUrlParser: true,
-        useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://cazancoth:KQ3xZc5Lk2Avbfql@cluster0.cadku.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
