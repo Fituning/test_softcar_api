@@ -60,6 +60,20 @@ exports.getAllCars = (req, res) => {
     )
 }
 
+exports.deleteAllCars = (req, res) => {
+    Car.deleteMany().then(
+        (cars) => {
+            res.status(200).json({massage : "deleted all " + cars.deletedCount +" cars"});
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            })
+        }
+    )
+}
+
 exports.updateLockStatus = (req, res) => {
     const { right_door, left_door, hood } = req.body;
 
