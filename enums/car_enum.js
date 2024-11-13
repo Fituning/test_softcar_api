@@ -28,4 +28,14 @@ const SoftwareStatus = {
     VULNERABLE: "vulnerable"
 };
 
-module.exports = { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus };
+const DaysOfWeek = {
+    MONDAY: "MON",
+    TUESDAY: "TUE",
+    WEDNESDAY: "WED",
+    THURSDAY: "THU",
+    FRIDAY: "FRI",
+    SATURDAY: "SAT",
+    SUNDAY: "SUN"
+};
+
+module.exports = { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus, DaysOfWeek };

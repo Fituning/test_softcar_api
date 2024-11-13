@@ -72,7 +72,8 @@ const carSchema = new Schema({
             front_defogging: false,
             back_defogging: false
         }
-    }
+    },
+    ac_prog: [{ type: Schema.Types.ObjectId, ref: "ACProg" }]
 });
 
 carSchema.plugin(uniqueValidator);

@@ -6,14 +6,11 @@ const mongoose = require('mongoose');
 
 const userRoutes = require('./routes/user');
 const carRoutes = require('./routes/car');
+const acProgRoutes = require('./routes/ac_prog');
 
 
 const bodyParser = require("express");
 const app = express();
-
-// console.log(process.env.MONGO_DB_USER);
-// console.log('mongodb+srv://'+process.env.MONGO_DB_USER+':'+process.env.MONGO_DB_PASSWORD+'@'+process.env.MONGO_DB_URI+'/?retryWrites=true&w=majority&appName=Cluster0');
-// console.log('mongodb+srv://cazancoth:KQ3xZc5Lk2Avbfql@cluster0.cadku.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
 mongoose.connect('mongodb+srv://'+process.env.MONGO_DB_USER+':'+process.env.MONGO_DB_PASSWORD+'@'+process.env.MONGO_DB_URI+'/?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -32,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // pour un body en x-www-for
 
 app.use('/api/auth', userRoutes);
 app.use('/api/car', carRoutes);
+app.use('/api/ac_prog', acProgRoutes);
 
 
 module.exports = app;
