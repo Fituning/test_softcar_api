@@ -1,4 +1,3 @@
-// enums/carEnums.js
 
 const VentilationLevel = {
     OFF: 0,
@@ -38,15 +37,4 @@ const DaysOfWeek = {
     SUNDAY: "SUN"
 };
 
-const Theme = {
-    LIGHT: "light",
-    DARK: "dark",
-}
-
-const NotificationMode = {
-    ON : "on",
-    OFF : "off",
-    ONLY_ALERT : "only_alert",
-}
-
-module.exports = { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus, DaysOfWeek, Theme, NotificationMode };
+module.exports = { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus, DaysOfWeek };

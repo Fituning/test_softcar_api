@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const {Schema} = require("mongoose");
 
-const {NotificationMode, Theme} = require("../enums/car_enum");
+const {NotificationMode, Theme} = require("../enums/user_enum");
 
 const preferences = new Schema({
     theme: { type: String, enum: Theme, default: Theme.LIGHT },
