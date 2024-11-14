@@ -73,7 +73,8 @@ const carSchema = new Schema({
             back_defogging: false
         }
     },
-    ac_prog: [{ type: Schema.Types.ObjectId, ref: "ACProg" }]
+    ac_prog: [{ type: Schema.Types.ObjectId, ref: "ACProg" }],
+    charge_prog: [{ type: Schema.Types.ObjectId, ref: "chargeProg" }]
 });
 
 carSchema.plugin(uniqueValidator);

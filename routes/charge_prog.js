@@ -3,9 +3,9 @@ const router = express.Router();
 
 const checkCarExists = require('../middleware/check_car_exists');
 
-const ACProgCtrl = require('../controllers/prog');
+const progCtrl = require('../controllers/prog');
 
-router.post('/',checkCarExists, ACProgCtrl.addACProg);
+router.post('/',checkCarExists, progCtrl.addChargeProg);
 
 
 module.exports = router;
