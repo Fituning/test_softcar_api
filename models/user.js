@@ -17,7 +17,7 @@ const userSchema = new Schema({
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     created_at: { type: Date, default: Date.now },
-    vehicle: [{ type: Schema.Types.ObjectId, ref: "vehicle" }],
+    cars: [{ type: Schema.Types.ObjectId, ref: "Car" }],
     preferences: { type: preferences, default: () => ({}) },
 });
 
