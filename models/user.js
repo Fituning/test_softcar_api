@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const {Schema} = require("mongoose");
 
-const {NotificationMode, Theme} = require("../enums/user_enum");
+const {NotificationMode, Theme, UserRole} = require("../enums/user_enum");
 
 const preferences = new Schema({
     theme: { type: String, enum: Theme, default: Theme.LIGHT },
@@ -16,6 +16,7 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
+    role: { type: String, enum: UserRole, default: UserRole.USER },
     created_at: { type: Date, default: Date.now },
     cars: [{ type: Schema.Types.ObjectId, ref: "Car" }],
     preferences: { type: preferences, default: () => ({}) },
