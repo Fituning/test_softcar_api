@@ -28,21 +28,7 @@ exports.addCar = (req, res) => {
 
 
 exports.getCar = (req, res) => {
-    const carId = req.params.id || req.query.id; // Priorité à req.params.id, puis req.query.id
-
-    Car.findOne({
-        _id: carId
-    }).then(
-        (thing) => {
-            res.status(200).json(thing);
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: error
-            });
-        }
-    );
+    res.status(200).json(req.car);
 };
 
 

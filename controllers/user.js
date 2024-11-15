@@ -111,4 +111,26 @@ exports.removeCar = (req, res) => {
         .catch(error => res.status(400).json({ error: error.message }));
 };
 
+exports.setPreferredCar = (req, res) => {
+    const user = req.auth.user;
+    const carId = req.query.id;
+
+    if (!carId) {
+        return res.status(400).json({ error: 'Car ID is required' });
+    }
+
+    const car = user.cars.find((car) => car._id.toString() === carId);
+    if (!car) {
+        return res.status(403).json({ message: 'Car is not yours' });
+    }
+
+    user.preferences.selected_car = car;
+
+    user.save().then((userRes) => res.status(200).json({
+        message: 'Preferred user car set successfully',
+        user: userRes,
+    })).catch(error => res.status(400).json({ error: error.message }));
+
+}
+
 
