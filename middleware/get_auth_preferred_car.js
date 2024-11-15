@@ -1,7 +1,5 @@
 
-const User = require('../models/user');
 const Car = require('../models/car');
-const jwt = require("jsonwebtoken"); // Importez le modèle de la voiture
 const auth = require("./auth");
 const {UserRole, RoleLevels} = require("../enums/user_enum");
 

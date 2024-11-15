@@ -1,6 +1,6 @@
 const Car = require('../models/car');
 
-const { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus } = require('../enums/car_enum');
+const { DoorState } = require('../enums/car_enum');
 const mqttClient = require('../mqtt'); // Importe le client MQTT
 
 exports.addCar = (req, res) => {
