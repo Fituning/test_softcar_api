@@ -97,14 +97,11 @@ exports.removeCar = (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Trouver la voiture avec le VIN correspondant dans la liste de voitures
-        const carIndex = user.cars.findIndex(car => car.vin === req.body.vin);
-        if (carIndex === -1) {
+        const carToRemove = user.cars.find((car) => car.vin === req.body.vin);
+        if(!carToRemove){
             return res.status(404).json({ error: "Car not found in user's list" });
         }
-
-        // Supprimer la voiture de la liste
-        user.cars.splice(carIndex, 1);
+        user.cars.remove(carToRemove);
 
         // Enregistrer les modifications de l'utilisateur
         user.save()
