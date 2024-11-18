@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 
+const response = require("../utils");
+
 module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
@@ -9,7 +11,7 @@ module.exports = (req, res, next) => {
 
         User.findById(userId).then((user) => {
             if (!user) {
-                return res.status(401).json({ error : "User unknown" });
+                return res.status(401).json(response(false,"User unknown"));
             }
 
             req.auth = {
@@ -18,9 +20,9 @@ module.exports = (req, res, next) => {
             };
             next();
         }).catch((error) => {
-            res.status(404).json({ error: error.message });
+            res.status(404).json(response(false,null,null,error));
         })
     } catch(error) {
-        res.status(401).json({ error : error.message });
+        res.status(401).json(response(false,null,null,error));
     }
 };
