@@ -13,7 +13,7 @@ const chargeProgRoutes = require('./routes/charge_prog');
 const bodyParser = require("express");
 const app = express();
 
-mongoose.connect('mongodb+srv://'+process.env.MONGO_DB_USER+':'+process.env.MONGO_DB_PASSWORD+'@'+process.env.MONGO_DB_URI+'/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://'+process.env.MONGO_DB_USER+':'+process.env.MONGO_DB_PASSWORD+'@'+process.env.MONGO_DB_URI+'/'+ process.env.MONGO_DB_NAME +'?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
