@@ -30,7 +30,6 @@ module.exports = (req, res, next) => {
             }else {
                 Car.findById(carId).then((car) => {
                     req.car = car;
-                    console.log(req.car);
                     next();
                 }).catch((error) => {
                     res.status(404).json({ message: "Car not found", error: error.message });

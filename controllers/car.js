@@ -1,6 +1,7 @@
 const Car = require('../models/car');
 
 const { DoorState } = require('../enums/car_enum');
+const {RoleLevels, UserRole} = require("../enums/user_enum");
 const mqttClient = require('../mqtt'); // Importe le client MQTT
 
 exports.addCar = (req, res) => {
@@ -33,17 +34,34 @@ exports.getCar = (req, res) => {
 
 
 exports.getAllCars = (req, res) => {
-    Car.find().then(
-        (cars) => {
-            res.status(200).json(cars);
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: error
-            })
-        }
-    )
+    const user = req.auth.user;
+
+    if (RoleLevels[user.role]  >= RoleLevels[UserRole.ADMIN]) {
+
+        Car.find().then(
+            cars => {
+                res.status(200).json(
+                    {
+                        "message": "Request successful",
+                        "timestamp": new Date().toLocaleString(undefined, { timeZoneName: 'short' }), // Correct
+                        "count": cars.length,
+                        "data_type" : cars[0].type,
+                        "data": {cars},  // Les données que vous souhaitez transmettre
+                        "errors": null,  // Une liste d'erreurs s'il y en a
+                    }
+                );
+            }
+        ).catch(error => {
+            res.status(400).json({error: error});
+        })
+    }else {
+        user.populate('cars').then( user => {
+            res.status(200).json(user.cars);
+            }
+        ).catch(error => {
+            res.status(400).json({error: error});
+        })
+    }
 }
 
 exports.deleteAllCars = (req, res) => {
