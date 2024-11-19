@@ -61,6 +61,12 @@ exports.login = (req, res) => {
         .catch(error => res.status(500).json({ error: error.message }));
 };
 
+exports.getUser = (req, res) => {
+    const user = req.auth.user;
+
+    return res.status(200).json(response(true, "User logged In", user));
+}
+
 exports.addCar = (req, res) => {
     // Rechercher la voiture par son VIN
     Car.findOne({ vin: req.body.vin }) // Corrigez `req.body.email` en `req.body.vin`
