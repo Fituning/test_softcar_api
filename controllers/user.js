@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Car = require('../models/car');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const response = require('../utils');
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
@@ -39,14 +40,21 @@ exports.login = (req, res) => {
                     if (!valid) {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
-                    res.status(200).json({
-                        userId: user._id,
-                        token: jwt.sign(
-                            { userId: user._id },
-                            process.env.JWT_SECRET,
-                            { expiresIn: '24h' }
+                    res.status(200).json(
+                        response(
+                        true,
+                        "success",
+                            {
+                                userId: user._id,
+                                token: jwt.sign(
+                                    { userId: user._id },
+                                    process.env.JWT_SECRET,
+                                    { expiresIn: '24h' }
+                                ),
+                                user: user,
+                            }
                         )
-                    });
+                    );
                 })
                 .catch(error => res.status(500).json({ error: error.message }));
         })

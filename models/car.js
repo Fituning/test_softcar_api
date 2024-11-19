@@ -57,7 +57,7 @@ const carSchema = new Schema({
         default: {
             charge_level: 100,
             battery_health: 100,
-            charging_time: 0,
+            charging_time: null,
             charging_power: 0
         }
     },
