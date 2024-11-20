@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
                     token: jwt.sign(
                         { userId: user._id },
                         process.env.JWT_SECRET,
-                        { expiresIn: '24h' }
+                        { expiresIn: process.env.JWT_TIME }
                     )
                 }))
                 .catch(error => res.status(400).json({ error }));
@@ -49,7 +49,7 @@ exports.login = (req, res) => {
                                 token: jwt.sign(
                                     { userId: user._id },
                                     process.env.JWT_SECRET,
-                                    { expiresIn: '1m' }
+                                    { expiresIn: process.env.JWT_TIME },
                                 ),
                                 user: user,
                             }
