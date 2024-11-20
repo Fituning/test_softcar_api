@@ -67,6 +67,21 @@ exports.getUser = (req, res) => {
     return res.status(200).json(response(true, "User logged In", user));
 }
 
+exports.validateToken = (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        jwt.verify(token, process.env.JWT_SECRET).then(decodedToken => {
+            if (!decodedToken) {
+                res.status(401).json(response(false,"Invalid Token"));
+            }else{
+                res.status(200).json(response(true, "the Token is valid"));
+            }
+        })
+    } catch(error) {
+        res.status(401).json(response(false,null,null,error));
+    }
+}
+
 exports.addCar = (req, res) => {
     // Rechercher la voiture par son VIN
     Car.findOne({ vin: req.body.vin }) // Corrigez `req.body.email` en `req.body.vin`
