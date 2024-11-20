@@ -70,13 +70,12 @@ exports.getUser = (req, res) => {
 exports.validateToken = (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, process.env.JWT_SECRET).then(decodedToken => {
-            if (!decodedToken) {
-                res.status(401).json(response(false,"Invalid Token"));
-            }else{
-                res.status(200).json(response(true, "the Token is valid"));
-            }
-        })
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        if (!decodedToken) {
+            res.status(401).json(response(false,"Invalid Token"));
+        }else{
+            res.status(200).json(response(true, "the Token is valid"));
+        }
     } catch(error) {
         res.status(401).json(response(false,null,null,error));
     }
