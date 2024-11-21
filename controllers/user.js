@@ -15,15 +15,21 @@ exports.signup = (req, res) => {
                 last_name: req.body.last_name,
             });
             user.save()
-                .then(user => res.status(200).json({
-                    message: 'User saved successfully',
-                    userId: user._id,
-                    token: jwt.sign(
-                        { userId: user._id },
-                        process.env.JWT_SECRET,
-                        { expiresIn: process.env.JWT_TIME }
+                .then(user => res.status(200).json(
+                    response(
+                        true,
+                        "success",
+                        {
+                            userId: user._id,
+                            token: jwt.sign(
+                                { userId: user._id },
+                                process.env.JWT_SECRET,
+                                { expiresIn: process.env.JWT_TIME },
+                            ),
+                            user: user,
+                        }
                     )
-                }))
+                ))
                 .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
