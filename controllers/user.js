@@ -99,7 +99,7 @@ exports.addCar = (req, res) => {
             User.findOne({ cars: car._id}) // Exclure l'utilisateur spécifique
                 .then((user) => {
                     if (!user){
-                        User.findById(req.auth.userId).then(( loggedUser : User | null) => {
+                        User.findById(req.auth.userId).then(( loggedUser ) => {
                             if (!loggedUser) {
                                 return res.status(401).json(response(false,"Utilisateur non trouvé !"));
                             }
