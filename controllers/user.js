@@ -99,24 +99,24 @@ exports.addCar = (req, res) => {
             User.findOne({ cars: car._id}) // Exclure l'utilisateur spécifique
                 .then((user) => {
                     if (!user){
-                        User.findById(req.auth.userId).then(( loggedUser) => {
+                        User.findById(req.auth.userId).then(( loggedUser : User | null) => {
                             if (!loggedUser) {
-                                return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+                                return res.status(401).json(response(false,"Utilisateur non trouvé !"));
                             }
-                            loggedUser.cars.push(car);
+                            loggedUser.cars.push(car._id);
 
                             if(loggedUser.cars.length <= 1){
-                                loggedUser.preferences.selected_car = car ;
+                                loggedUser.preferences.selected_car = car._id ;
                             }
                             loggedUser.save()
                                 .then(() => res.status(200).json(response(true, 'Added car to user succesfully', loggedUser)))
-                                .catch(error => res.status(400).json({ error: error.message }));
+                                .catch(error => res.status(400).json(response(false,null, null, error)));
                         })
                     }else{
                         if(user._id.toString() === req.auth.userId){
-                            return res.status(422).json({ error : "You already owned this vehicle"});
+                            return res.status(422).json(response(false,"You already owned this vehicle"));
                         }else{
-                            return res.status(401).json({ error : "this Vehicle is already owned by another user"});
+                            return res.status(401).json(response(false,"this Vehicle is already owned by another user"));
                         }
                     }
                 })
