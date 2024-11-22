@@ -29,12 +29,19 @@ module.exports = (req, res, next) => {
             if (!carId) {
                 return res.status(404).json(response(false , 'No Car selected'));
             }else {
-                Car.findById(carId).then((car) => {
-                    req.car = car;
-                    next();
-                }).catch((error) => {
-                    res.status(404).json(response(false,"Car not found", null, error));
-                })
+                if( user.cars.includes(carId) ){
+                    Car.findById(carId).then((car) => {
+                        req.car = car;
+                        next();
+                    }).catch((error) => {
+                        res.status(404).json(response(false,"Car not found", null, error));
+                    })
+                }else{
+                    user.preferences.selected_car = null
+                    user.save()
+
+                    res.status(404).json(response(false,"Car is no longer yours"));
+                }
             }
         }
     });
