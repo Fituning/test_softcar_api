@@ -99,16 +99,17 @@ exports.addCar = (req, res) => {
             User.findOne({ cars: car._id}) // Exclure l'utilisateur spécifique
                 .then((user) => {
                     if (!user){
-                        User.findById(req.auth.userId).then((loggedUser) => {
+                        User.findById(req.auth.userId).then(( loggedUser) => {
                             if (!loggedUser) {
                                 return res.status(401).json({ error: 'Utilisateur non trouvé !' });
                             }
                             loggedUser.cars.push(car);
+
+                            if(loggedUser.cars.length <= 1){
+                                loggedUser.preferences.selected_car = car ;
+                            }
                             loggedUser.save()
-                                .then(() => res.status(200).json({
-                                    message: 'Added car to user succesfully',
-                                    user: loggedUser,
-                                }))
+                                .then(() => res.status(200).json(response(true, 'Added car to user succesfully', loggedUser)))
                                 .catch(error => res.status(400).json({ error: error.message }));
                         })
                     }else{
