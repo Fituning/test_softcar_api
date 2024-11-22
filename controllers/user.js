@@ -138,6 +138,8 @@ exports.removeCar = (req, res) => {
         }
         user.cars.remove(carToRemove);
 
+        //todo ne pas oublier d'enlever de selected car
+
         // Enregistrer les modifications de l'utilisateur
         user.save()
             .then(() => res.status(200).json({ message: "Car removed successfully" }))
@@ -148,7 +150,7 @@ exports.removeCar = (req, res) => {
 
 exports.setPreferredCar = (req, res) => {
     const user = req.auth.user;
-    const carId = req.query.id;
+    const carId = req.body.id;
 
     if (!carId) {
         return res.status(400).json({ error: 'Car ID is required' });
@@ -159,7 +161,7 @@ exports.setPreferredCar = (req, res) => {
         return res.status(403).json({ message: 'Car is not yours' });
     }
 
-    user.preferences.selected_car = car;
+    user.preferences.selected_car = car._id;
 
     user.save().then((userRes) => res.status(200).json({
         message: 'Preferred user car set successfully',
