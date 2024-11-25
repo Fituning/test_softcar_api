@@ -120,7 +120,11 @@ exports.updateCarAirConditioning = (req, res) => {
     req.car.save().then(
         (car) => {
 
-            const message = JSON.stringify({ air_conditioning: car.air_conditioning });
+            const message = JSON.stringify({
+                source : req.body.source ? req.body.source : "external",
+                air_conditioning: car.air_conditioning
+            });
+
             mqttClient.publish('car/airConditioning/'+car.vin, message, { qos: 1 }, (error) => {
                 if (error) {
                     console.error('Erreur lors de l\'envoi du message MQTT :', error);
