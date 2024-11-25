@@ -121,7 +121,7 @@ exports.updateCarAirConditioning = (req, res) => {
         (car) => {
 
             const message = JSON.stringify({
-                source : req.body.source ? req.body.source : "external",
+                source : req.headers['source'] ? req.headers['source'] : "external",
                 air_conditioning: car.air_conditioning
             });
 
