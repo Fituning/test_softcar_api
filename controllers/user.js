@@ -149,6 +149,7 @@ exports.removeCar = (req, res) => {
 };
 
 exports.setPreferredCar = (req, res) => {
+    print("test");
     const user = req.auth.user;
     const carVin = req.body.vin;
 
