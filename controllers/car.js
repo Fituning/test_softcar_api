@@ -1,6 +1,8 @@
 const Car = require('../models/car');
 
-const { VentilationLevel, AirConditioningMode, DoorState, SoftwareStatus } = require('../enums/car_enum');
+const { DoorState } = require('../enums/car_enum');
+const {RoleLevels, UserRole} = require("../enums/user_enum");
+const response = require('../utils');
 const mqttClient = require('../mqtt'); // Importe le client MQTT
 
 exports.addCar = (req, res) => {
@@ -11,65 +13,62 @@ exports.addCar = (req, res) => {
 
     car.save().then(
         () => {
-            res.status(201).json({
-                message: 'Car added successfully!',
-                carVin:car.vin,
-                carId:car._id
-            });
+            res.status(200).send(
+                response(
+                    true,
+                    "Car added successfully!",
+                    {
+                        carVin:car.vin,
+                        carId:car._id
+                    }
+                )
+            )
         }
     ).catch(
         (error) => {
-            res.status(400).json({
-                error: error
-            });
+            res.status(400).json(response(false, null,null, error));
         }
     );
 }
 
 
 exports.getCar = (req, res) => {
-    const carId = req.params.id || req.query.id; // Priorité à req.params.id, puis req.query.id
-
-    Car.findOne({
-        _id: carId
-    }).then(
-        (thing) => {
-            res.status(200).json(thing);
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: error
-            });
-        }
-    );
+    res.status(200).json(response(true, "Request successful", req.car));
 };
 
 
 exports.getAllCars = (req, res) => {
-    Car.find().then(
-        (cars) => {
-            res.status(200).json(cars);
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: error
-            })
-        }
-    )
+    const user = req.auth.user;
+
+    if (RoleLevels[user.role]  >= RoleLevels[UserRole.ADMIN]) {
+
+        Car.find().then(
+            cars => {
+                res.status(200).json(
+                    response(true, "Request successful", cars)
+                );
+            }
+        ).catch(error => {
+            res.status(400).json(response(false, null,null, error));
+        })
+    }else {
+        user.populate('cars').then( user => {
+            res.status(200).json(response(true, "Request successful", user.cars));
+            }
+        ).catch(error => {
+            res.status(400).json(response(false, null,null, error));
+        })
+    }
 }
 
 exports.deleteAllCars = (req, res) => {
     Car.deleteMany().then(
         (cars) => {
-            res.status(200).json({massage : "deleted all " + cars.deletedCount +" cars"});
+            res.status(200).json(response( true,"deleted all " + cars.deletedCount +" cars",{}));
         }
     ).catch(
         (error) => {
-            res.status(404).json({
-                error: error
-            })
+            res.status(404).json(response( false, null,null, error));
         }
     )
 }
@@ -120,19 +119,24 @@ exports.updateCarAirConditioning = (req, res) => {
 
     req.car.save().then(
         (car) => {
-            res.status(200).json(car);
-            const message = JSON.stringify({ air_conditioning: car.air_conditioning });
-            mqttClient.publish('car/airConditioning', message, { qos: 1 }, (error) => {
+
+            const message = JSON.stringify({
+                source : req.headers['source'] ? req.headers['source'] : "external",
+                air_conditioning: car.air_conditioning
+            });
+
+            mqttClient.publish('car/airConditioning/'+car.vin, message, { qos: 1 }, (error) => {
                 if (error) {
                     console.error('Erreur lors de l\'envoi du message MQTT :', error);
                 } else {
                     console.log('Message MQTT envoyé :', message);
                 }
             });
+            res.status(200).json(response(true, "Request successful", car.air_conditioning));
         }
     ).catch(
         (error) => {
-            res.status(400).json({ error });
+            res.status(400).json( response(false, null,null, error));
         }
     );
 };
@@ -158,12 +162,11 @@ exports.updateBattery = (req, res) => {
                     console.log('Message MQTT envoyé :', message);
                 }
             });
-
-            res.status(200).json(car);
+            res.status(200).json(response(true,"Request successful", car.battery));
         }
     ).catch(
         (error) => {
-            res.status(400).json({ error });
+            res.status(400).json(response(false,null,null, error));
         }
     );
 };

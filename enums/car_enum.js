@@ -1,4 +1,3 @@
-// enums/carEnums.js
 
 const VentilationLevel = {
     OFF: 0,

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const checkCarExists = require('../middleware/check_car_exists');
+const GetAuthPreferredCar = require('../middleware/get_auth_preferred_car');
 
 const ACProgCtrl = require('../controllers/prog');
 
-router.post('/',checkCarExists, ACProgCtrl.addACProg);
+router.post('/',GetAuthPreferredCar, ACProgCtrl.addACProg);
+router.patch('/toggle_activation',GetAuthPreferredCar, ACProgCtrl.toggleProgActivation);
 
 
 module.exports = router;

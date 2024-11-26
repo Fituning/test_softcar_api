@@ -29,6 +29,7 @@ const airConditioningSchema = new Schema(
 
 const carSchema = new Schema({
     vin: { type: String, required: true, unique: true }, // Numéro VIN unique
+    // todo ajouter date de mis en circulation
     color: { type: String, required: true },
     kilometres: { type: Number, required: true, default:0 },
     last_interview: { type: String, required: false , default: null},
@@ -57,7 +58,7 @@ const carSchema = new Schema({
         default: {
             charge_level: 100,
             battery_health: 100,
-            charging_time: 0,
+            charging_time: null,
             charging_power: 0
         }
     },
