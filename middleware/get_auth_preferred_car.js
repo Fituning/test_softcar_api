@@ -30,7 +30,7 @@ module.exports = (req, res, next) => {
                 return res.status(404).json(response(false , 'No Car selected'));
             }else {
                 if( user.cars.includes(carId) ){
-                    Car.findById(carId).then((car) => {
+                    Car.findById(carId).populate('ac_prog').populate('charge_prog').then((car) => {
                         req.car = car;
                         next();
                     }).catch((error) => {
