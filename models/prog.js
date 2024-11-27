@@ -9,7 +9,7 @@ const ProgSchema = new Schema({
     date_final: { type: Date, required: true, default: Date.now },
     repetition: [{ type: String, enum: DaysOfWeek }],
 },
-    { _id: false }
+    // { _id: false }
 );
 
 const prog = mongoose.model("Prog", ProgSchema);
@@ -29,4 +29,4 @@ const chargeProg = prog.discriminator(
     })
 )
 
-module.exports = {ACProg, chargeProg};
+module.exports = {ACProg, chargeProg, prog};

@@ -27,7 +27,7 @@ const SoftwareStatus = {
     VULNERABLE: "vulnerable"
 };
 
-const DaysOfWeek = {
+const DaysOfWeek = { //todo modif enum by number like the get prog function
     MONDAY: "MON",
     TUESDAY: "TUE",
     WEDNESDAY: "WED",
